@@ -29,6 +29,11 @@ class UserController {
           .status(400)
           .send(responsesHelper.error(400, `${error.message}`))
       } else {
+        const isMember = await Users.findOne({ email: req.body.email })
+        if (isMember)
+          return res
+            .status(400)
+            .send(responsesHelper.error(400, 'User is a registered member'))
         const salt: string = bcrypt.genSaltSync(10)
         const hash: string = bcrypt.hashSync(req.body.password, salt)
         req.body.password = hash
