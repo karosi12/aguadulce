@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mongo:
+    container_name: mongodb-container
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb:/data/db   
+    networks:
+      - aguadulce-network
+
+  backend:
+    container_name: aguadulce-be
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_HOST=mongodb-container
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+      - TOKEN_EXPIRES_IN=${TOKEN_EXPIRES_IN}
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - API_VERSION=${API_VERSION}
+      - JWT_SECRET=${JWT_SECRET}
+      - PROVIDER_API_URL=${PROVIDER_API_URL}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - CONTRACT_ADDRESS=${CONTRACT_ADDRESS}
+    networks:
+      - aguadulce-network
+    ports:
+      - '3300:3300'
+    depends_on:
+      - mongo
+
+volumes:
+  mongodb: {}
+
+networks:
+  aguadulce-network:
+    driver: bridge

@@ -4,3 +4,4 @@ logs/*
 artifacts
 cache
 contract/Auction.json
+dist
