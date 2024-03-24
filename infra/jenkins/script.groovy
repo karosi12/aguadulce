@@ -1,5 +1,5 @@
 def run() {
-    sh "cat 'Hello World'"
+    sh "echo 'Hello World'"
 }
 
 return this

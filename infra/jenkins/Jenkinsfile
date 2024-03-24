@@ -23,5 +23,23 @@ pipeline {
                 }
             }
         }
-    }     
+    }
+    post {
+        success {
+            // Notify GitHub on success
+            githubNotify(
+                status: 'SUCCESS',
+                description: 'Build successful',
+                context: 'Jenkins'
+            )
+        }
+        failure {
+            // Notify GitHub on failure
+            githubNotify(
+                status: 'FAILURE',
+                description: 'Build failed',
+                context: 'Jenkins'
+            )
+        }
+    }   
 }
