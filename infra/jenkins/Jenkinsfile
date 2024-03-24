@@ -1,0 +1,27 @@
+#!/usr/bin/env groovy
+
+def gv
+
+pipeline {
+    agent any
+    tools {
+        nodejs 'node'
+    }
+    stages {
+
+        stage("init") {
+            steps {
+                script {
+                    gv = load "infra/jenkins/script.groovy"
+                }
+            }
+        }
+        stage("Run") {
+            steps {
+                script {
+                    gv.run()
+                }
+            }
+        }
+    }     
+}
