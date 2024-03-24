@@ -7,14 +7,18 @@ export class Config {
     'TOKEN_EXPIRES_IN',
     'PORT',
     'API_VERSION',
-    'REDIS_HOST',
-    'REDIS_PORT',
+    'PRIVATE_KEY',
+    'PROVIDER_API_URL',
+    'CONTRACT_ADDRESS',
   ]
   requiredVariables = {
     JWT_SECRET: process.env.JWT_SECRET,
     TOKEN_EXPIRES_IN: process.env.TOKEN_EXPIRES_IN,
     PORT: process.env.PORT,
     API_VERSION: process.env.API_VERSION,
+    PROVIDER_API_URL: process.env.PROVIDER_API_URL,
+    PRIVATE_KEY: process.env.PRIVATE_KEY ?? '',
+    CONTRACT_ADDRESS: process.env.CONTRACT_ADDRESS ?? '',
   }
   public logger: any
   public cookieOptions = {
@@ -38,12 +42,6 @@ export class Config {
       MONGO_DB_NAME,
       MONGO_USERNAME,
       MONGO_PASSWORD,
-    }
-  }
-  public RedisCredentials(): any {
-    return {
-      REDIS_HOST: process.env.REDIS_HOST,
-      REDIS_PORT: process.env.REDIS_PORT,
     }
   }
   public JwtCredentials(): Record<string, string> {

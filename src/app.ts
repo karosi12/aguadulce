@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import { Logger } from './logger/logger'
 import { Config } from './config/config'
 import { usersRoute } from './routes/user'
+import { auctionsRoute } from './routes/auction'
 import { validateEnvVariables } from './utils/validation'
 const app: Application = express()
 dotenv.config()
@@ -29,6 +30,7 @@ app.use(
 )
 validateEnvVariables(config.requiredVariableList)
 app.use(API_VERSION, usersRoute)
+app.use(API_VERSION, auctionsRoute)
 
 app.get('/', (req: Request, res: Response) => {
   return res.status(200).send({ message: 'API is running fine' })

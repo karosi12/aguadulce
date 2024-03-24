@@ -7,9 +7,8 @@
     "build": "npx tsc",
     "start": "npm run build && node dist/app.js",
     "dev": "nodemon src/app.ts",
-    "deploy-contract": "node contract/deploy.js",
-    "compile": "node contract/compile.js",
-    "interact": "node contract/interact.js",
+    "deploy": "npx hardhat run contracts/deploy.js --network sepolia",
+    "compile": "npx hardhat compile",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "repository": {
@@ -32,6 +31,7 @@
     "winston": "^3.12.0"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/bluebird": "^3.5.42",
     "@types/cookie-parser": "^1.4.7",
@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "^7.2.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
+    "hardhat": "^2.22.2",
     "joi": "^17.12.2",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
