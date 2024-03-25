@@ -7,6 +7,9 @@ pipeline {
     tools {
         nodejs 'node'
     }
+    environment {
+         GITHUB_API_URL='https://api.github.com/repos/karosi12/aguadulce'
+    }
     stages {
 
         stage("init") {
@@ -26,20 +29,14 @@ pipeline {
     }
     post {
         success {
-            // Notify GitHub on success
-            githubNotify(
-                status: 'SUCCESS',
-                description: 'Build successful',
-                context: 'Jenkins'
-            )
+                withCredentials([usernamePassword(credentialsId: 'github-secret', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                sh 'curl -X POST --user $USER:$PASS --data  "{\\"state\\": \\"success\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
+            }
         }
         failure {
-            // Notify GitHub on failure
-            githubNotify(
-                status: 'FAILURE',
-                description: 'Build failed',
-                context: 'Jenkins'
-            )
+                withCredentials([usernamePassword(credentialsId: 'github-secret', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+                sh 'curl -X POST --user $USER:$PASS --data  "{\\"state\\": \\"failure\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
+            }
         }
-    }   
+    }  
 }
