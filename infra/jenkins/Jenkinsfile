@@ -19,7 +19,7 @@ pipeline {
         stage("Run") {
             steps {
                 script {
-                    gv.run()
+                    gv.runTest()
                 }
             }
         }

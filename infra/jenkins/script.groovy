@@ -1,4 +1,4 @@
-def run() {
+def runTest() {
     sh "echo 'Hello World'"
 }
 
