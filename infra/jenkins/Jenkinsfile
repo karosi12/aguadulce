@@ -27,6 +27,11 @@ pipeline {
             }
         }
         stage("'SSH and Pull'") {
+            when {
+                expression {
+                    return env.GIT_BRANCH == "main"
+                }
+             }
             steps {
                 script {
                     gv.deployApp()
