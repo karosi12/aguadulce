@@ -36,5 +36,4 @@ describe('UserController', () => {
     expect(status.args[0][0]).to.equal(200)
     expect(send.args[0][0].data).to.equal(stubValue)
   })
-
 })
