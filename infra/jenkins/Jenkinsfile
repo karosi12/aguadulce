@@ -1,0 +1,54 @@
+#!/usr/bin/env groovy
+
+def gv
+
+pipeline {
+    agent any
+    tools {
+        nodejs 'node'
+    }
+    environment {
+         GITHUB_API_URL='https://api.github.com/repos/karosi12/aguadulce'
+    }
+    stages {
+
+        stage("init") {
+            steps {
+                script {
+                    gv = load "infra/jenkins/script.groovy"
+                }
+            }
+        }
+        stage("Run") {
+            steps {
+                script {
+                    gv.runTest()
+                }
+            }
+        }
+        stage("'SSH and Pull'") {
+            when {
+                expression {
+                    return env.GIT_BRANCH == "main"
+                }
+             }
+            steps {
+                script {
+                    gv.deployApp()
+                }
+            }
+        }
+    }
+    post {
+        success {
+                withCredentials([usernamePassword(credentialsId: 'github-secret', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                sh 'curl -X POST --user $USER:$PASS --data  "{\\"state\\": \\"success\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
+            }
+        }
+        failure {
+                withCredentials([usernamePassword(credentialsId: 'github-secret', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+                sh 'curl -X POST --user $USER:$PASS --data  "{\\"state\\": \\"failure\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
+            }
+        }
+    }  
+}

@@ -5,7 +5,7 @@
 require('dotenv').config();
 require("@nomiclabs/hardhat-ethers");
 
-const { API_URL, PRIVATE_KEY } = process.env;
+const { PROVIDER_API_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
    solidity: "0.7.3",
@@ -13,7 +13,7 @@ module.exports = {
    networks: {
       hardhat: {},
       sepolia: {
-         url: API_URL,
+         url: PROVIDER_API_URL,
          accounts: [`0x${PRIVATE_KEY}`]
       }
    },
