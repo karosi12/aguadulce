@@ -3,15 +3,15 @@ def deployApp(){
     def ec2Instance = "ubuntu@${env.IP_ADDRESS}"
 
     sshagent(['ec2-server-key']) {
-        sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2Instance}:/home/ubuntu"
-        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance}"
+        sh '''
+            ssh -o StrictHostKeyChecking=no ubuntu@3.122.244.24 'git pull origin https://github.com/karosi12/aguadulce.git && cd aguadulce && docker-compose up -d'
+        '''
     }     
     echo "success - Deployed"
 }
 
 def runTest() {
     dir("src") {
-        //  install all dependencies needed for running tests
         sh "npm install"
         sh "npm run test"
     } 

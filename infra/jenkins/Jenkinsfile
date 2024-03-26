@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        stage("'SSH and Pull'") {
+            steps {
+                script {
+                    gv.deployApp()
+                }
+            }
+        }
     }
     post {
         success {
