@@ -1,6 +1,5 @@
 def deployApp(){
     sh "ls -la"
-    def ec2Instance = "ubuntu@${env.IP_ADDRESS}"
 
     sshagent(['ec2-server-key']) {
         sh '''
